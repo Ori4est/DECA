@@ -39,13 +39,35 @@ class FAN(object):
 
 class DINO(object):
     def __init__(self, device='cpu'):
-        from GroundingDino import detector
+        # Grounding DINO
+        import GroundingDINO.groundingdino.datasets.transforms as T
+        from GroundingDINO.groundingdino.models import build_model
+        from GroundingDINO.groundingdino.util import box_ops
+        from GroundingDINO.groundingdino.util.slconfig import SLConfig
+        from GroundingDINO.groundingdino.util.utils import clean_state_dict, get_phrases_from_posmap
+        from GroundingDINO.groundingdino.util.inference import annotate, load_image, predict
+        
         self.device = device
-        self.model = detector
+        self.ckpt_repo_id = "ShilongLiu/GroundingDINO"
+        self.ckpt_filenmae = "groundingdino_swinb_cogcoor.pth"
+        self.ckpt_config_filename = "GroundingDINO_SwinB.cfg.py"
+        self.groundingdino_model = load_model_hf(ckpt_repo_id, ckpt_filenmae, ckpt_config_filename).to(device)
         self.types = ['beauty products', 'makeup products', 'perfume']
+
+    def detect(self, image, text_prompt, model, box_threshold = 0.3, text_threshold = 0.25, device='cuda'):
+        boxes, logits, phrases = predict(model=model,
+                                          image=image,
+                                          caption=text_prompt,
+                                          box_threshold=box_threshold,
+                                          text_threshold=text_threshold,
+                                          device=device
+                                          )
+        return boxes
+    
     def run(self, input):
-        out = self.model.detect(self.types)
-        bbox = out[0][0].squeeze()
+        detected_boxes = self.detect(input, text_prompt=self.types, model=self.groundingdino_model, device=self.device)
+        # TBC
+        bbox = detected_boxes[0][0].squeeze()
         return bbox, 'noface'
         
 
