@@ -36,6 +36,19 @@ class FAN(object):
             bbox = [left,top, right, bottom]
             return bbox, 'kpt68'
 
+
+class DINO(object):
+    def __init__(self, device='cpu'):
+        from GroundingDino import detector
+        self.device = device
+        self.model = detector
+        self.type = ['product']
+    def run(self, input):
+        out = self.model.detect(self.type)
+        bbox = out[0][0].squeeze()
+        return bbox, 'noface'
+        
+
 class MTCNN(object):
     def __init__(self, device = 'cpu'):
         '''
