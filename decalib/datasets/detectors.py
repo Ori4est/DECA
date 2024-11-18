@@ -42,9 +42,9 @@ class DINO(object):
         from GroundingDino import detector
         self.device = device
         self.model = detector
-        self.type = ['product']
+        self.types = ['beauty products', 'makeup products', 'perfume']
     def run(self, input):
-        out = self.model.detect(self.type)
+        out = self.model.detect(self.types)
         bbox = out[0][0].squeeze()
         return bbox, 'noface'
         
