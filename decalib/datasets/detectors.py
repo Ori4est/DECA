@@ -46,13 +46,23 @@ class DINO(object):
         from GroundingDINO.groundingdino.util.slconfig import SLConfig
         from GroundingDINO.groundingdino.util.utils import clean_state_dict, get_phrases_from_posmap
         from GroundingDINO.groundingdino.util.inference import annotate, load_image, predict
+        from huggingface_hub import hf_hub_download
         
         self.device = device
         self.ckpt_repo_id = "ShilongLiu/GroundingDINO"
         self.ckpt_filenmae = "groundingdino_swinb_cogcoor.pth"
         self.ckpt_config_filename = "GroundingDINO_SwinB.cfg.py"
-        self.groundingdino_model = load_model_hf(ckpt_repo_id, ckpt_filenmae, ckpt_config_filename).to(device)
-        self.types = ['beauty products', 'makeup products', 'perfume']
+        
+        cache_config_file = hf_hub_download(repo_id=self.ckpt_repo_id, filename=self.ckpt_config_filename)
+        args = SLConfig.fromfile(cache_config_file)
+        model = build_model(args)
+        cache_file = hf_hub_download(repo_id=self.ckpt_repo_id, filename=self.ckpt_filenmae)
+        checkpoint = torch.load(cache_file)
+        log = model.load_state_dict(clean_state_dict(checkpoint['model']), strict=False)
+        _ = model.eval()
+        self.groundingdino_model = model #load_model_hf(ckpt_repo_id, ckpt_filenmae, ckpt_config_filename).to(device)
+        
+        self.types = ['beauty products', 'makeup products', 'perfume', 'gift boxes']
 
     def detect(self, image, text_prompt, model, box_threshold = 0.3, text_threshold = 0.25, device='cuda'):
         boxes, logits, phrases = predict(model=model,
