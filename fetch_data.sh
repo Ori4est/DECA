@@ -3,9 +3,9 @@ urle () { [[ "${1}" ]] || return 1; local LANG=C i x; for (( i = 0; i < ${#1}; i
 
 # Fetch FLAME data
 #echo -e "\nBefore you continue, you must register at https://flame.is.tue.mpg.de/ and agree to the FLAME license terms."
-#read -p "Username (FLAME):" username
+read -p "Username (FLAME):" username
 #read -p "Password (FLAME):" password
-username="yang.mi@thesea.ai"#$(urle $username)
+username=#$(urle $username)
 password="Jyxnyp-0pagqe-tecfud"#$(urle $password)
 
 mkdir -p ./data
