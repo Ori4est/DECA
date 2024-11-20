@@ -13,7 +13,7 @@ cfg.deca_dir = abs_deca_dir
 cfg.device = 'cuda'
 cfg.device_id = '0'
 
-cfg.pretrained_modelpath = os.path.join(cfg.deca_dir, 'data', 'deca_model.tar')
+cfg.pretrained_modelpath = os.path.join(cfg.deca_dir, 'ckpts', 'deca_model.tar')
 cfg.output_dir = ''
 cfg.rasterizer_type = 'pytorch3d'
 # ---------------------------------------------------------------------------- #
@@ -24,7 +24,7 @@ cfg.model.topology_path = os.path.join(cfg.deca_dir, 'data', 'head_template.obj'
 # texture data original from http://files.is.tue.mpg.de/tbolkart/FLAME/FLAME_texture_data.zip
 cfg.model.dense_template_path = os.path.join(cfg.deca_dir, 'data', 'texture_data_256.npy')
 cfg.model.fixed_displacement_path = os.path.join(cfg.deca_dir, 'data', 'fixed_displacement_256.npy')
-cfg.model.flame_model_path = os.path.join(cfg.deca_dir, 'data', 'generic_model.pkl') 
+cfg.model.flame_model_path = os.path.join(cfg.deca_dir, 'ckpts', 'generic_model.pkl') 
 cfg.model.flame_lmk_embedding_path = os.path.join(cfg.deca_dir, 'data', 'landmark_embedding.npy') 
 cfg.model.face_mask_path = os.path.join(cfg.deca_dir, 'data', 'uv_face_mask.png') 
 cfg.model.face_eye_mask_path = os.path.join(cfg.deca_dir, 'data', 'uv_face_eye_mask.png') 
@@ -42,7 +42,7 @@ cfg.model.n_light = 27
 cfg.model.use_tex = True
 cfg.model.jaw_type = 'aa' # default use axis angle, another option: euler. Note that: aa is not stable in the beginning
 # face recognition model
-cfg.model.fr_model_path = os.path.join(cfg.deca_dir, 'data', 'resnet50_ft_weight.pkl')
+cfg.model.fr_model_path = os.path.join(cfg.deca_dir, 'ckpts', 'resnet50_ft_weight.pkl')
 
 ## details
 cfg.model.n_detail = 128
