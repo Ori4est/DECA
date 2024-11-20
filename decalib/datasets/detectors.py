@@ -61,21 +61,16 @@ class DINO(object):
         log = model.load_state_dict(clean_state_dict(checkpoint['model']), strict=False)
         _ = model.eval()
         self.groundingdino_model = model #load_model_hf(ckpt_repo_id, ckpt_filenmae, ckpt_config_filename).to(device)
-        
+        self.detect = predict
         self.types = ['beauty products', 'makeup products', 'perfume', 'gift boxes']
-
-    def detect(self, image, text_prompt, model, box_threshold = 0.3, text_threshold = 0.25, device='cuda'):
-        boxes, logits, phrases = predict(model=model,
-                                          image=image,
-                                          caption=text_prompt,
-                                          box_threshold=box_threshold,
-                                          text_threshold=text_threshold,
-                                          device=device
-                                          )
-        return boxes
     
     def run(self, input):
-        detected_boxes = self.detect(input, text_prompt=self.types, model=self.groundingdino_model, device=self.device)
+        detected_boxes, logits, phrases = self.detect(model=self.groundingdino_model,
+                                                      image=input, 
+                                                      caption=self.types, 
+                                                      box_threshold=0.3,
+                                                      text_threshold=0.25
+                                                      device=self.device)
         # TBC
         bbox = detected_boxes[0][0].squeeze()
         return bbox, 'noface'
