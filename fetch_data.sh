@@ -2,11 +2,11 @@
 urle () { [[ "${1}" ]] || return 1; local LANG=C i x; for (( i = 0; i < ${#1}; i++ )); do x="${1:i:1}"; [[ "${x}" == [a-zA-Z0-9.~-] ]] && echo -n "${x}" || printf '%%%02X' "'${x}"; done; echo; }
 
 # Fetch FLAME data
-echo -e "\nBefore you continue, you must register at https://flame.is.tue.mpg.de/ and agree to the FLAME license terms."
-read -p "Username (FLAME):" username
-read -p "Password (FLAME):" password
-username=$(urle $username)
-password=$(urle $password)
+#echo -e "\nBefore you continue, you must register at https://flame.is.tue.mpg.de/ and agree to the FLAME license terms."
+#read -p "Username (FLAME):" username
+#read -p "Password (FLAME):" password
+username="yang.mi@thesea.ai"#$(urle $username)
+password="Jyxnyp-0pagqe-tecfud"#$(urle $password)
 
 mkdir -p ./data
 
