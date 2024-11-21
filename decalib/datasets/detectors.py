@@ -69,7 +69,7 @@ class DINO(object):
                                                       image=input, 
                                                       caption=self.types, 
                                                       box_threshold=0.3,
-                                                      text_threshold=0.25
+                                                      text_threshold=0.25,
                                                       device=self.device)
         # TBC
         bbox = detected_boxes[0][0].squeeze()
