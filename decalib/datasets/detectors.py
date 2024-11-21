@@ -63,10 +63,15 @@ class DINO(object):
         self.groundingdino_model = model #load_model_hf(ckpt_repo_id, ckpt_filenmae, ckpt_config_filename).to(device)
         self.detect = predict
         self.types = ['beauty products', 'makeup products', 'perfume', 'gift boxes']
+        self.transform = T.Compose([T.RandomResize([800], max_size=1333),
+                                    T.ToTensor(),
+                                    T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+                                    ])
     
     def run(self, input):
+        image, _ = transform(cv2.resize(input, (768, 768)), None) #load_image(img_path, 768)
         detected_boxes, logits, phrases = self.detect(model=self.groundingdino_model,
-                                                      image=input, 
+                                                      image=image, 
                                                       caption=self.types[0], 
                                                       box_threshold=0.3,
                                                       text_threshold=0.25,
