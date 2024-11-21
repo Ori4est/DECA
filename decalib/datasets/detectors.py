@@ -67,7 +67,7 @@ class DINO(object):
     def run(self, input):
         detected_boxes, logits, phrases = self.detect(model=self.groundingdino_model,
                                                       image=input, 
-                                                      caption=self.types, 
+                                                      caption=self.types[0], 
                                                       box_threshold=0.3,
                                                       text_threshold=0.25,
                                                       device=self.device)
