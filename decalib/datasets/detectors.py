@@ -80,7 +80,7 @@ class DINO(object):
                                                           box_threshold=0.3,
                                                           text_threshold=0.25,
                                                           device=self.device)
-            print(detected_boxes)
+            print(detected_boxes[0])
             if detected_boxes[0][0] is not None:
                 break
         # TBC
