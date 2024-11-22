@@ -69,8 +69,11 @@ class DINO(object):
                                     ])
     
     def run(self, input):
+        from torchvision.ops import box_convert
         from decalib.utils.util import convert_cv2pil
+        
         print(f'{input.shape}')
+        w, h, _ = input.shape
         input = convert_cv2pil(input, resize=768)
         image, _ = self.transform(input, None) #load_image(img_path, 768)
         for i in range(len(self.types)):
@@ -84,8 +87,10 @@ class DINO(object):
             if detected_boxes.size(0) != 0:
                 break
         # TBC
-        bbox = detected_boxes[0].squeeze()
-        return bbox, 'noface'
+        boxes_unnorm = detected_boxes * torch.Tensor([w, h, w, h])
+        boxes_xyxy = box_convert(boxes=boxes_unnorm, in_fmt="cxcywh", out_fmt="xyxy").numpy()
+        bbox = boxes_xyxy[0].squeeze()
+        return bbox, 'bbox'
         
 
 class MTCNN(object):
