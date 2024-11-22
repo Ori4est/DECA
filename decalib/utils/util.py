@@ -22,6 +22,7 @@ import os
 from scipy.ndimage import morphology
 from skimage.io import imsave
 import cv2
+from PIL import Image
 import torchvision
 
 def upsample_mesh(vertices, normals, faces, displacement_map, texture_map, dense_template):
@@ -702,3 +703,9 @@ def visualize_grid(visdict, savepath=None, size=224, dim=1, return_gird=True):
         cv2.imwrite(savepath, grid_image)
     if return_gird:
         return grid_image
+
+def convert_cv2pil(img: np.ndarray, resize=None) -> Image:
+    # return Image.fromarray(img)
+    if img.shape[-1] == 4:
+        return Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGRA2RGBA)) if resize is None else Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGRA2RGBA)).resize((resize, resize), Image.LANCZOS)
+    return Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)) if resize is None else Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)).resize((resize, resize), Image.LANCZOS)
