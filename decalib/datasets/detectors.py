@@ -69,8 +69,9 @@ class DINO(object):
                                     ])
     
     def run(self, input):
-        import cv2
-        image, _ = self.transform(cv2.resize(input, (768, 768), cv2.INTER_LANCZOS4), None) #load_image(img_path, 768)
+        from utils import convert_cv2pil
+        input = convert_cv2pil(input, resize=768)
+        image, _ = self.transform(input, None) #load_image(img_path, 768)
         detected_boxes, logits, phrases = self.detect(model=self.groundingdino_model,
                                                       image=image, 
                                                       caption=self.types[0], 
