@@ -47,7 +47,6 @@ class DINO(object):
         from GroundingDINO.groundingdino.util.utils import clean_state_dict, get_phrases_from_posmap
         from GroundingDINO.groundingdino.util.inference import annotate, load_image, predict
         from huggingface_hub import hf_hub_download
-        import cv2
         
         self.device = device
         self.ckpt_repo_id = "ShilongLiu/GroundingDINO"
@@ -70,6 +69,7 @@ class DINO(object):
                                     ])
     
     def run(self, input):
+        import cv2
         image, _ = self.transform(cv2.resize(input, (768, 768), cv2.INTER_LANCZOS4), None) #load_image(img_path, 768)
         detected_boxes, logits, phrases = self.detect(model=self.groundingdino_model,
                                                       image=image, 
