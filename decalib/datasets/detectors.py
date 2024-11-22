@@ -69,7 +69,7 @@ class DINO(object):
                                     ])
     
     def run(self, input):
-        from utils import convert_cv2pil
+        from decalib.utils.util import convert_cv2pil
         input = convert_cv2pil(input, resize=768)
         image, _ = self.transform(input, None) #load_image(img_path, 768)
         detected_boxes, logits, phrases = self.detect(model=self.groundingdino_model,
