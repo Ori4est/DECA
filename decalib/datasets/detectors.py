@@ -73,7 +73,7 @@ class DINO(object):
         from decalib.utils.util import convert_cv2pil
         
         print(f'{input.shape}')
-        w, h, _ = input.shape
+        h, w, _ = input.shape
         input = convert_cv2pil(input, resize=768)
         image, _ = self.transform(input, None) #load_image(img_path, 768)
         for i in range(len(self.types)):
