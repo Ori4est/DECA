@@ -81,10 +81,10 @@ class DINO(object):
                                                           text_threshold=0.25,
                                                           device=self.device)
             print(detected_boxes)
-            if detected_boxes:
+            if detected_boxes[0][0] is not None:
                 break
         # TBC
-        bbox = detected_boxes[0][0].squeeze()
+        bbox = detected_boxes[0].squeeze()
         return bbox, 'noface'
         
 
