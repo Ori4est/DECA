@@ -69,8 +69,8 @@ class TestData(Dataset):
         self.resolution_inp = crop_size
         if face_detector == 'fan':
             self.face_detector = detectors.FAN()
-        # elif face_detector == 'mtcnn':
-        #     self.face_detector = detectors.MTCNN()
+        elif face_detector == 'mtcnn':
+             self.face_detector = detectors.MTCNN()
         elif face_detector == 'DINO':
             self.face_detector = detectors.DINO()
         else:
