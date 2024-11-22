@@ -108,7 +108,7 @@ class MTCNN(object):
         '''
         out = self.model.detect(input[None,...])
         if out[0][0] is None:
-            return [0]
+            return [0], 'bbox'
         else:
             bbox = out[0][0].squeeze()
             return bbox, 'bbox'
