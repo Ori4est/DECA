@@ -70,14 +70,19 @@ class DINO(object):
     
     def run(self, input):
         from decalib.utils.util import convert_cv2pil
+        print(f'{input.shape}')
         input = convert_cv2pil(input, resize=768)
         image, _ = self.transform(input, None) #load_image(img_path, 768)
-        detected_boxes, logits, phrases = self.detect(model=self.groundingdino_model,
-                                                      image=image, 
-                                                      caption=self.types[0], 
-                                                      box_threshold=0.3,
-                                                      text_threshold=0.25,
-                                                      device=self.device)
+        for i in range(len(self.types)):
+            detected_boxes, logits, phrases = self.detect(model=self.groundingdino_model,
+                                                          image=image, 
+                                                          caption=self.types[i], 
+                                                          box_threshold=0.3,
+                                                          text_threshold=0.25,
+                                                          device=self.device)
+            print(detected_boxes)
+            if detected_boxes:
+                break
         # TBC
         bbox = detected_boxes[0][0].squeeze()
         return bbox, 'noface'
